@@ -9,7 +9,7 @@ export async function GET() {
       COUNT(rp.id) as races_picked
     FROM users u
     LEFT JOIN race_picks rp ON rp.user_id = u.id
-    LEFT JOIN races r ON r.id = rp.race_id AND r.status = 'closed'
+      AND rp.race_id IN (SELECT id FROM races WHERE status = 'closed')
     WHERE u.is_admin = 0
     GROUP BY u.id, u.name
     ORDER BY total_points DESC, u.name ASC
